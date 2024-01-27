@@ -32,20 +32,20 @@ async def sign_up(email, password):
 
 
 @login_required
-@app.post(f"{base_url}" + "/expense/")
-async def expense_insertion(expense: Record, x_token: Annotated[str | None, Header()] = None):
+@app.post(f"{base_url}" + "/record/")
+async def record_insertion(record: Record, x_token: Annotated[str | None, Header()] = None):
     pass
 
 
 @login_required
-@app.put(f"{base_url}" + "/expense/")
-async def expense_insertion(expense: Record, x_token: Annotated[str | None, Header()] = None):
+@app.put(f"{base_url}" + "/record/")
+async def record_insertion(record: Record, x_token: Annotated[str | None, Header()] = None):
     pass
 
 
 @login_required
-@app.delete(f"{base_url}" + "/expense/{expense_id}")
-async def expense_insertion(expense_id, x_token: Annotated[str | None, Header()] = None):
+@app.delete(f"{base_url}" + "/record/{record_id}")
+async def record_insertion(record_id, x_token: Annotated[str | None, Header()] = None):
     pass
 
 
