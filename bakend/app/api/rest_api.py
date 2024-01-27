@@ -11,20 +11,41 @@ app = FastAPI()
 base_url = "/jibi"
 
 
-@app.post(f"{base_url}"+"/signup/{email}")
+def login_required(func):
+    def wrapper(*args, **kwargs):
+        token = kwargs.get("x_token")
+        if token is None:
+            raise ApiException("null token", 401)
+        func(*args, **kwargs)
+
+    return wrapper
+
+
+@app.post(f"{base_url}" + "/signup/{email}")
 async def sign_up(email, username, password):
     pass
 
 
-@app.post(f"{base_url}"+"/signup/{email}")
+@app.post(f"{base_url}" + "/signup/{email}")
 async def sign_up(email, password):
     pass
 
 
-@app.post(f"{base_url}"+"/expense-insertion/")
+@login_required
+@app.post(f"{base_url}" + "/expense/")
 async def expense_insertion(expense: Expense, x_token: Annotated[str | None, Header()] = None):
-    if x_token is None:
-        raise ApiException("null token", 401)
+    pass
+
+
+@login_required
+@app.put(f"{base_url}" + "/expense/")
+async def expense_insertion(expense: Expense, x_token: Annotated[str | None, Header()] = None):
+    pass
+
+
+@login_required
+@app.delete(f"{base_url}" + "/expense/{expense_id}")
+async def expense_insertion(expense_id, x_token: Annotated[str | None, Header()] = None):
     pass
 
 
