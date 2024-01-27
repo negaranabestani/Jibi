@@ -3,8 +3,8 @@ from typing import Annotated
 from fastapi import FastAPI, Header, Request
 from fastapi.responses import JSONResponse
 
-from app.entity.expense import Expense
-from app.exeption.api_exception import ApiException
+from app.entity.record import Record
+from app.exception.api_exception import ApiException
 
 app = FastAPI()
 
@@ -33,13 +33,13 @@ async def sign_up(email, password):
 
 @login_required
 @app.post(f"{base_url}" + "/expense/")
-async def expense_insertion(expense: Expense, x_token: Annotated[str | None, Header()] = None):
+async def expense_insertion(expense: Record, x_token: Annotated[str | None, Header()] = None):
     pass
 
 
 @login_required
 @app.put(f"{base_url}" + "/expense/")
-async def expense_insertion(expense: Expense, x_token: Annotated[str | None, Header()] = None):
+async def expense_insertion(expense: Record, x_token: Annotated[str | None, Header()] = None):
     pass
 
 

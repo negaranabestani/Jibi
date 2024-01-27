@@ -1,6 +1,6 @@
 import uuid
 from app.entity.person import Person, User
-from app.exeption.controller_exception import DuplicationException, ValidationException
+from app.exception.controller_exception import DuplicationException, ValidationException
 
 
 def login(email, password):
@@ -18,6 +18,7 @@ def generate_token(user_id):
 
 
 def two_step_verification(email):
+    # TODO two step verification
     pass
 
 
