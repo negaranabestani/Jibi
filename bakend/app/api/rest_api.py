@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import FastAPI, Header, Request
 from fastapi.responses import JSONResponse
 
-from app.api.request_obj import RecordRequestObj
+from app.api.request_obj import RecordRequestDTO
 from app.exception.api_exception import ApiException
 
 app = FastAPI()
@@ -33,13 +33,13 @@ async def sign_in(email, password):
 
 @login_required
 @app.post(f"{base_url}" + "/record/")
-async def record_insertion(record: RecordRequestObj, x_token: Annotated[str | None, Header()] = None):
+async def record_insertion(record: RecordRequestDTO, x_token: Annotated[str | None, Header()] = None):
     pass
 
 
 @login_required
 @app.put(f"{base_url}" + "/record/{record_id}")
-async def record_edition(record_id, record: RecordRequestObj, x_token: Annotated[str | None, Header()] = None):
+async def record_edition(record_id, record: RecordRequestDTO, x_token: Annotated[str | None, Header()] = None):
     pass
 
 

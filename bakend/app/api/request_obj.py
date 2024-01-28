@@ -7,16 +7,16 @@ class RecordType(Enum):
     Expense = "Expense"
 
 
-class RecordRequestObj(BaseModel):
+class RecordRequestDTO(BaseModel):
     title: str | None
     amount: float
     category: str | None
     type: RecordType
 
 
-class UserRequestObj(BaseModel):
+class UserRequestDTO(BaseModel):
     email: str
     password: str
-    username: str
-    calendar: str
-    currency: str
+    username: str | None
+    calendar: str | None
+    currency: str | None
