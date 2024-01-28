@@ -3,6 +3,7 @@ from app.controller.user_controller import *
 from app.exception.controller_exception import *
 from app.exception.api_exception import *
 from app.entity.person import *
+from app.api.response_dto import *
 
 
 def controller_exception_handler(fun):
@@ -26,4 +27,7 @@ def sign_up_service(new_user: UserRequestDTO):
     user = User(new_user.email, new_user.password)
     user.currency = new_user.currency
     user.calendar = new_user.calendar
-    sign_up(user)
+    token = sign_up(user)
+    response_user = UserDTO(username=user.username, token=token)
+    response = UserResponseDTO(user=response_user, responseID=str(uuid.uuid4()))
+    return response

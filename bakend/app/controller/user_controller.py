@@ -14,6 +14,7 @@ def login(email, password):
 
 
 def generate_token(user_id):
+    # TODO check for existing token for user
     return user_id + str(uuid.uuid4())
 
 
@@ -24,9 +25,10 @@ def two_step_verification(email):
 
 def sign_up(person: Person):
     duplicated = False
+    user_id = ""
     # TODO check duplication on email
     if duplicated:
         raise DuplicationException("email")
     two_step_verification(person.email)
     # TODO add person to db
-    pass
+    return generate_token(user_id)

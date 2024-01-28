@@ -7,7 +7,7 @@ class ResponseDTO(BaseModel):
     responseID: uuid
 
 
-class UserDTO:
+class UserDTO(BaseModel):
     username: str
     token: str
 
@@ -16,7 +16,7 @@ class UserResponseDTO(ResponseDTO):
     user: UserDTO
 
 
-class RecordDTO:
+class RecordDTO(BaseModel):
     amount: str
     category: str
     date: str
