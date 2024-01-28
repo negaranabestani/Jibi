@@ -6,7 +6,7 @@ from app.entity.person import *
 from app.api.response_dto import *
 
 
-def controller_exception_handler(fun):
+def exception_handler(fun):
     def wrapper(*args, **kwargs):
         try:
             fun(*args, **kwargs)
@@ -16,7 +16,7 @@ def controller_exception_handler(fun):
     return wrapper
 
 
-@controller_exception_handler
+@exception_handler
 def login_service(email, password):
     token, username = login(email, password)
     response_user = UserDTO(username=username, token=token)
@@ -24,12 +24,12 @@ def login_service(email, password):
     return response
 
 
-@controller_exception_handler
+@exception_handler
 def sign_up_service(new_user: UserRequestDTO):
     # TODO validate format and set default values if null
-    user = User(new_user.email, new_user.password)
-    user.currency = new_user.currency
-    user.calendar = new_user.calendar
+    user = User(new_user.user.email, new_user.user.password)
+    user.currency = new_user.user.currency
+    user.calendar = new_user.user.calendar
     token = sign_up(user)
     response_user = UserDTO(username=user.username, token=token)
     response = UserResponseDTO(user=response_user, responseID=str(uuid.uuid4()))

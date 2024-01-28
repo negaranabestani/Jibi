@@ -16,7 +16,7 @@ def login(email, password):
 
 def generate_token(user_id):
     # TODO check for existing token for user
-    return user_id + str(uuid.uuid4())
+    return user_id + "::" + str(uuid.uuid4())
 
 
 def two_step_verification(email):

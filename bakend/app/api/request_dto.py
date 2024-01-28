@@ -11,6 +11,7 @@ class RecordType(Enum):
 
 class RequestDTO(BaseModel):
     requestID: uuid
+    token: str
 
 
 class RecordDTO(BaseModel):
@@ -18,6 +19,7 @@ class RecordDTO(BaseModel):
     amount: float
     category: str | None
     type: RecordType
+    record_id: str | None
 
 
 class RecordRequestDTO(RequestDTO):
