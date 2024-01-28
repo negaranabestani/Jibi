@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from app.db.database_connectivity import Base
 
 
-class Record(Base):
+class Category(Base):
     __tablename__ = 'categories'
     color = Column(String(20))
     icon = Column(String(60))

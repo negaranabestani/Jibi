@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.entity.record import *
 from app.entity.person import *
+from app.entity.category import *
 
 engine = db.create_engine("sqlite:///jibi_database.sqlite")
 
@@ -59,6 +60,31 @@ def get_user(email, password):
     return session.scalars(s)
 
 
+def select_categories(user_id: str):
+    s = select(Category).where(Category.user_id == user_id)
+    session.commit()
+    return session.scalars(s)
+
+
+def create_category(cat: Category):
+    session.add(cat)
+    s = select(Category).where(Category.user_id == cat.user_id and Category.title == cat.title)
+    session.commit()
+    return session.scalars(s)
+
+
+def update_category(cat: Category):
+    update(Category).where(Category.id == cat.id).values(cat)
+    s = select(Category).where(Category.id == cat.id)
+    session.commit()
+    return session.scalars(s)
+
+
+def delete_category(cat_id):
+    delete(Category).where(Category.id == cat_id)
+    session.commit()
+
+
 def user_exist(email):
     s = select(User.email)
     session.commit()
@@ -70,6 +96,15 @@ def user_exist(email):
 
 def record_exist(title):
     s = select(Record.title)
+    session.commit()
+    result = session.scalars(s)
+    if title in result:
+        return True
+    return False
+
+
+def category_exist(title):
+    s = select(Category.title)
     session.commit()
     result = session.scalars(s)
     if title in result:
