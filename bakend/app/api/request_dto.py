@@ -1,3 +1,5 @@
+import uuid
+
 from pydantic import BaseModel
 from enum import Enum
 
@@ -7,16 +9,28 @@ class RecordType(Enum):
     Expense = "Expense"
 
 
-class RecordRequestDTO(BaseModel):
+class RequestDTO(BaseModel):
+    requestID: uuid
+
+
+class RecordDTO(BaseModel):
     title: str | None
     amount: float
     category: str | None
     type: RecordType
 
 
-class UserRequestDTO(BaseModel):
+class RecordRequestDTO(RequestDTO):
+    record: RecordDTO
+
+
+class UserDTO:
     email: str
     password: str
     username: str | None
     calendar: str | None
     currency: str | None
+
+
+class UserRequestDTO(RequestDTO):
+    user: UserDTO

@@ -1,10 +1,29 @@
-from app.api.request_obj import UserRequestDTO
+from app.api.request_dto import UserRequestDTO
 from app.controller.user_controller import *
+from app.exception.controller_exception import *
+from app.exception.api_exception import *
+from app.entity.person import *
 
 
+def controller_exception_handler(fun):
+    def wrapper(*args, **kwargs):
+        try:
+            fun(*args, **kwargs)
+        except ControllerException as e:
+            raise ApiException(e.message, e.status_code)
+
+    return wrapper
+
+
+@controller_exception_handler
 def login_service(email, password):
-    try:
-        login(email,password)
-    except
+    login(email, password)
 
+
+@controller_exception_handler
 def sign_up_service(new_user: UserRequestDTO):
+    # TODO validate format and set default values if null
+    user = User(new_user.email, new_user.password)
+    user.currency = new_user.currency
+    user.calendar = new_user.calendar
+    sign_up(user)

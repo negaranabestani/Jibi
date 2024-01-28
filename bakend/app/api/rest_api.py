@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import FastAPI, Header, Request
 from fastapi.responses import JSONResponse
 
-from app.api.request_obj import RecordRequestDTO
+from app.api.request_dto import RecordRequestDTO
 from app.exception.api_exception import ApiException
 
 app = FastAPI()
