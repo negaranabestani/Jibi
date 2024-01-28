@@ -18,7 +18,10 @@ def controller_exception_handler(fun):
 
 @controller_exception_handler
 def login_service(email, password):
-    login(email, password)
+    token, username = login(email, password)
+    response_user = UserDTO(username=username, token=token)
+    response = UserResponseDTO(user=response_user, responseID=str(uuid.uuid4()))
+    return response
 
 
 @controller_exception_handler

@@ -6,11 +6,12 @@ from app.exception.controller_exception import DuplicationException, ValidationE
 def login(email, password):
     valid = True
     user_id = ""
+    username = ""
     # TODO check input validity form database
     if not valid:
         raise ValidationException("email or password")
     two_step_verification(email)
-    return generate_token(user_id)
+    return generate_token(user_id), username
 
 
 def generate_token(user_id):
