@@ -13,7 +13,7 @@ class Person:
 
 class User(Base):
     __tablename__ = 'users'
-    email = Column(String(40))
+    email = Column(String(40), unique=True)
     password = Column(String(20))
     username = Column(String(40), nullable=True)
     user_id = Column(Integer, primary_key=True, autoincrement=True)

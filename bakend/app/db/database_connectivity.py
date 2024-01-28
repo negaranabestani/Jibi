@@ -51,3 +51,18 @@ def update_user(user: User):
     s = select(User).where(User.user_id == user.user_id)
     session.commit()
     return session.scalars(s)
+
+
+def get_user(email, password):
+    s = select(User).where(User.email == email and User.password == password)
+    session.commit()
+    return session.scalars(s)
+
+
+def user_exist(email):
+    s = select(User.email)
+    session.commit()
+    result = session.scalars(s)
+    if email in result:
+        return True
+    return False
