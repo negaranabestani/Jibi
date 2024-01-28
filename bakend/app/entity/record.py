@@ -1,5 +1,3 @@
-
-
 class Record:
     def __init__(self, amount, category: None, date, title: None, user_id):
         self.amount = amount
@@ -7,3 +5,4 @@ class Record:
         self.date = date
         self.title = title
         self.user_id = user_id
+        self.id = None
