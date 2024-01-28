@@ -5,13 +5,12 @@ from app.exception.controller_exception import DuplicationException, ValidationE
 
 def login(email, password):
     valid = True
-    user_id = ""
-    username = ""
+    user = None
     # TODO check input validity form database
     if not valid:
         raise ValidationException("email or password")
     two_step_verification(email)
-    return generate_token(user_id), username
+    return generate_token(user.user_id), user
 
 
 def generate_token(user_id):
@@ -26,10 +25,10 @@ def two_step_verification(email):
 
 def sign_up(person: Person):
     duplicated = False
-    user_id = ""
+    user = None
     # TODO check duplication on email
     if duplicated:
         raise DuplicationException("email")
     two_step_verification(person.email)
     # TODO add person to db
-    return generate_token(user_id)
+    return generate_token(user.user_id), user

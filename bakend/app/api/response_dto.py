@@ -10,6 +10,8 @@ class ResponseDTO(BaseModel):
 class UserDTO(BaseModel):
     username: str
     token: str
+    currency: str
+    calendar: str
 
 
 class UserResponseDTO(ResponseDTO):

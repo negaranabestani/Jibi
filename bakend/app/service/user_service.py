@@ -18,8 +18,8 @@ def exception_handler(fun):
 
 @exception_handler
 def login_service(email, password):
-    token, username = login(email, password)
-    response_user = UserDTO(username=username, token=token)
+    token, user = login(email, password)
+    response_user = UserDTO(username=user.username, calendar=user.calendar, currency=user.currency, token=token)
     response = UserResponseDTO(user=response_user, responseID=str(uuid.uuid4()))
     return response
 
@@ -27,10 +27,10 @@ def login_service(email, password):
 @exception_handler
 def sign_up_service(new_user: UserRequestDTO):
     # TODO validate format and set default values if null
-    user = User(new_user.user.email, new_user.user.password)
-    user.currency = new_user.user.currency
-    user.calendar = new_user.user.calendar
-    token = sign_up(user)
-    response_user = UserDTO(username=user.username, token=token)
+    x_user = User(new_user.user.email, new_user.user.password)
+    x_user.currency = new_user.user.currency
+    x_user.calendar = new_user.user.calendar
+    token, user = sign_up(x_user)
+    response_user = UserDTO(username=user.username, calendar=user.calendar, currency=user.currency, token=token)
     response = UserResponseDTO(user=response_user, responseID=str(uuid.uuid4()))
     return response
