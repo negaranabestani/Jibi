@@ -14,7 +14,7 @@ class RecordRequestObj(BaseModel):
     type: RecordType
 
 
-class UserRequestBody(BaseModel):
+class UserRequestObj(BaseModel):
     email: str
     password: str
     username: str
