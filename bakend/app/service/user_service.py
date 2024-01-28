@@ -34,3 +34,14 @@ def sign_up_service(new_user: UserRequestDTO):
     response_user = UserDTO(username=user.username, calendar=user.calendar, currency=user.currency, token=token)
     response = UserResponseDTO(user=response_user, responseID=str(uuid.uuid4()))
     return response
+
+
+@exception_handler
+def update_settings_service(user: UserRequestDTO):
+    x_user = User(user.user.email, user.user.password)
+    x_user.currency = user.user.currency
+    x_user.calendar = user.user.calendar
+    result = edit_settings(x_user)
+    response_user = UserDTO(username=result.username, calendar=result.calendar, currency=result.currency)
+    response = UserResponseDTO(user=response_user, responseID=str(uuid.uuid4()))
+    return response

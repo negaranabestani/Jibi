@@ -45,6 +45,12 @@ async def record_insertion(record: RecordRequestDTO, x_token: Annotated[str | No
 
 
 @login_required
+@app.put(f"{base_url}" + "/setting/")
+async def setting_edition(user: UserRequestDTO, x_token: Annotated[str | None, Header()] = None):
+    return update_settings_service(user)
+
+
+@login_required
 @app.put(f"{base_url}" + "/record/")
 async def record_edition(record: RecordRequestDTO, x_token: Annotated[str | None, Header()] = None):
     return edit_record_service(record)

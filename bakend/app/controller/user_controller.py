@@ -19,7 +19,7 @@ def generate_token(user_id):
 
 
 def two_step_verification(email):
-    # TODO two step verification
+    # TODO two-step verification
     pass
 
 
@@ -30,3 +30,10 @@ def sign_up(person: User):
     two_step_verification(person.email)
     user = create_user(person)
     return generate_token(user.user_id), user
+
+
+def edit_settings(user: User):
+    try:
+        return update_user(user)
+    except ObjectDeletedError:
+        raise ValidationException("email or password")
