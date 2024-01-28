@@ -11,7 +11,7 @@ class Person:
         self.user_id = None
 
 
-class User(Person, Base):
+class User(Base):
     __tablename__ = 'users'
     email = Column(String(40))
     password = Column(String(20))
@@ -20,7 +20,11 @@ class User(Person, Base):
     calendar = Column(String(40), nullable=True)
     currency = Column(String(40), nullable=True)
 
-    def __init__(self, email, password):
-        super().__init__(email, password)
+    def __init__(self, email, password, username=None):
+        super().__init__(email, password, username)
+        self.email = email
+        self.password = password
+        self.username = username
+        self.user_id = None
         self.calendar = None
         self.currency = None
