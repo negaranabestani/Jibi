@@ -3,8 +3,9 @@ from typing import Annotated
 from fastapi import FastAPI, Header, Request
 from fastapi.responses import JSONResponse
 
-from app.api.request_dto import RecordRequestDTO
+from app.api.request_dto import *
 from app.exception.api_exception import ApiException
+from app.service.user_service import *
 
 app = FastAPI()
 
@@ -23,12 +24,16 @@ def login_required(func):
 
 @app.post(f"{base_url}" + "/signup/{email}")
 async def sign_up(email, username, password):
-    pass
+    request_dto = UserDTO(email=email, username=username, password=password, calendar=None, currency=None)
+    request = UserRequestDTO(user=request_dto, requestID=uuid.uuid4())
+    sign_up_service(request)
 
 
 @app.post(f"{base_url}" + "/signin/{email}")
 async def sign_in(email, password):
-    pass
+    request_dto = UserDTO(email=email, username=None, password=password, calendar=None, currency=None)
+    request = UserRequestDTO(user=request_dto, requestID=uuid.uuid4())
+    login_service(request)
 
 
 @login_required
