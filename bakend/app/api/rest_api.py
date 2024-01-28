@@ -26,8 +26,8 @@ async def sign_up(email, username, password):
     pass
 
 
-@app.post(f"{base_url}" + "/signup/{email}")
-async def sign_up(email, password):
+@app.post(f"{base_url}" + "/signin/{email}")
+async def sign_in(email, password):
     pass
 
 
