@@ -42,6 +42,7 @@ async def sign_in(email, password):
 async def record_insertion(record: RecordRequestDTO, x_token: Annotated[str | None, Header()] = None):
     return add_record_service(record)
 
+
 @login_required
 @app.put(f"{base_url}" + "/record/")
 async def record_edition(record: RecordRequestDTO, x_token: Annotated[str | None, Header()] = None):
