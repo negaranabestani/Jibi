@@ -7,6 +7,7 @@ from app.api.request_dto import *
 from app.exception.api_exception import ApiException
 from app.service.user_service import *
 from app.service.record_service import *
+from app.util.general_utils import *
 
 app = FastAPI()
 
@@ -53,6 +54,12 @@ async def record_edition(record: RecordRequestDTO, x_token: Annotated[str | None
 @app.delete(f"{base_url}" + "/record/{record_id}")
 async def record_deletion(record_id, x_token: Annotated[str | None, Header()] = None):
     return delete_record(record_id)
+
+
+@login_required
+@app.get(f"{base_url}" + "/record/")
+async def record_deletion(x_token: Annotated[str | None, Header()] = None):
+    return get_records(token_parser(x_token))
 
 
 @app.exception_handler(ApiException)

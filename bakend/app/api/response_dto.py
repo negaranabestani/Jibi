@@ -28,4 +28,4 @@ class RecordDTO(BaseModel):
 
 
 class RecordResponseDTO(ResponseDTO):
-    record: RecordDTO
+    record: RecordDTO | [RecordDTO]

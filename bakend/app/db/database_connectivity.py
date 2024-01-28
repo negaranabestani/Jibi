@@ -14,7 +14,7 @@ Base.metadata.create_all()
 session = Session(engine)
 
 
-def get_records(user_id: str):
+def select_records(user_id: str):
     s = select(Record).where(Record.user_id == user_id)
     session.commit()
     return session.scalars(s)
@@ -64,5 +64,23 @@ def user_exist(email):
     session.commit()
     result = session.scalars(s)
     if email in result:
+        return True
+    return False
+
+
+def record_exist(title):
+    s = select(Record.title)
+    session.commit()
+    result = session.scalars(s)
+    if title in result:
+        return True
+    return False
+
+
+def record_exist_id(id):
+    s = select(Record.id)
+    session.commit()
+    result = session.scalars(s)
+    if id in result:
         return True
     return False
