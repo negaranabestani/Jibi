@@ -19,11 +19,11 @@ class RecordDTO(BaseModel):
     amount: float
     category: str | None
     type: RecordType
-    record_id: str | None
 
 
 class RecordRequestDTO(RequestDTO):
     record: RecordDTO
+    record_id: str
 
 
 class UserDTO:

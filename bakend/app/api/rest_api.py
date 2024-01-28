@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from app.api.request_dto import *
 from app.exception.api_exception import ApiException
 from app.service.user_service import *
+from app.service.record_service import *
 
 app = FastAPI()
 
@@ -26,32 +27,31 @@ def login_required(func):
 async def sign_up(email, username, password):
     request_dto = UserDTO(email=email, username=username, password=password, calendar=None, currency=None)
     request = UserRequestDTO(user=request_dto, requestID=uuid.uuid4())
-    sign_up_service(request)
+    return sign_up_service(request)
 
 
 @app.post(f"{base_url}" + "/signin/{email}")
 async def sign_in(email, password):
     request_dto = UserDTO(email=email, username=None, password=password, calendar=None, currency=None)
     request = UserRequestDTO(user=request_dto, requestID=uuid.uuid4())
-    login_service(request)
+    return login_service(request)
 
 
 @login_required
 @app.post(f"{base_url}" + "/record/")
 async def record_insertion(record: RecordRequestDTO, x_token: Annotated[str | None, Header()] = None):
-    pass
-
+    return add_record_service(record)
 
 @login_required
-@app.put(f"{base_url}" + "/record/{record_id}")
-async def record_edition(record_id, record: RecordRequestDTO, x_token: Annotated[str | None, Header()] = None):
-    pass
+@app.put(f"{base_url}" + "/record/")
+async def record_edition(record: RecordRequestDTO, x_token: Annotated[str | None, Header()] = None):
+    return edit_record_service(record)
 
 
 @login_required
 @app.delete(f"{base_url}" + "/record/{record_id}")
 async def record_deletion(record_id, x_token: Annotated[str | None, Header()] = None):
-    pass
+    return delete_record(record_id)
 
 
 @app.exception_handler(ApiException)

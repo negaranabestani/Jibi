@@ -32,7 +32,7 @@ def edit_record_service(request: RecordRequestDTO):
     new_record = request.record
     user_id = token_parser(request.token)
     record = Record(new_record.amount, new_record.category, time.asctime(), new_record.title, user_id)
-    edit_record(record, new_record.record_id)
+    edit_record(record, request.record_id)
 
 
 @exception_handler
