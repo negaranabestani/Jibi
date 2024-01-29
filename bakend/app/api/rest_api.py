@@ -92,7 +92,6 @@ async def category_list(x_token: Annotated[str | None, Header()] = None):
     return get_categories(token_parser(x_token))
 
 
-
 @app.exception_handler(ApiException)
 async def api_exception_handler(request: Request, exc: ApiException):
     return JSONResponse(

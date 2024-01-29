@@ -51,6 +51,7 @@ def edit_record_service(request: RecordRequestDTO):
 @exception_handler
 def delete_record_service(request: RecordRequestDTO):
     delete_record(request.record.record_id)
+    return ResponseDTO(responseID=str(uuid.uuid4()))
 
 
 @exception_handler
@@ -99,6 +100,7 @@ def edit_category_service(request: CategoryRequestDTO):
 @exception_handler
 def delete_category_service(request: CategoryRequestDTO):
     delete_category(request.category.id)
+    return ResponseDTO(responseID=str(uuid.uuid4()))
 
 
 @exception_handler
