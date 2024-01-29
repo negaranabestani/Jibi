@@ -89,12 +89,12 @@ async def category_deletion(category_id, x_token: Annotated[str | None, Header()
 @login_required
 @app.get(f"{base_url}" + "/category/")
 async def category_list(x_token: Annotated[str | None, Header()] = None):
-    return get_categories(token_parser(x_token)
-                          @ app.exception_handler(ApiException)
-                          async
+    return get_categories(token_parser(x_token))
 
 
-def api_exception_handler(request: Request, exc: ApiException):
+
+@app.exception_handler(ApiException)
+async def api_exception_handler(request: Request, exc: ApiException):
     return JSONResponse(
         status_code=exc.status_code,
         content={"message": f"{exc.message} ", "request": f"{request.body()}"},
