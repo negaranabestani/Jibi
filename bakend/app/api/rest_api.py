@@ -64,12 +64,37 @@ async def record_deletion(record_id, x_token: Annotated[str | None, Header()] = 
 
 @login_required
 @app.get(f"{base_url}" + "/record/")
-async def record_deletion(x_token: Annotated[str | None, Header()] = None):
+async def record_list(x_token: Annotated[str | None, Header()] = None):
     return get_records(token_parser(x_token))
 
 
-@app.exception_handler(ApiException)
-async def api_exception_handler(request: Request, exc: ApiException):
+@login_required
+@app.post(f"{base_url}" + "/category/")
+async def category_insertion(category: CategoryRequestDTO, x_token: Annotated[str | None, Header()] = None):
+    return add_category_service(category)
+
+
+@login_required
+@app.put(f"{base_url}" + "/category/")
+async def category_edition(category: CategoryRequestDTO, x_token: Annotated[str | None, Header()] = None):
+    return edit_category_service(category)
+
+
+@login_required
+@app.delete(f"{base_url}" + "/category/{category_id}")
+async def category_deletion(category_id, x_token: Annotated[str | None, Header()] = None):
+    return delete_category(category_id)
+
+
+@login_required
+@app.get(f"{base_url}" + "/category/")
+async def category_list(x_token: Annotated[str | None, Header()] = None):
+    return get_categories(token_parser(x_token)
+                          @ app.exception_handler(ApiException)
+                          async
+
+
+def api_exception_handler(request: Request, exc: ApiException):
     return JSONResponse(
         status_code=exc.status_code,
         content={"message": f"{exc.message} ", "request": f"{request.body()}"},

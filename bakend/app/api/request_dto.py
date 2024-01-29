@@ -23,7 +23,7 @@ class RecordDTO(BaseModel):
 
 class RecordRequestDTO(RequestDTO):
     record: RecordDTO
-    record_id: str
+    record_id: int
 
 
 class UserDTO:
@@ -36,3 +36,14 @@ class UserDTO:
 
 class UserRequestDTO(RequestDTO):
     user: UserDTO
+
+
+class CategoryDTO(BaseModel):
+    color: str
+    icon: str
+    title: str
+    id: int
+
+
+class CategoryRequestDTO(RequestDTO):
+    category: CategoryDTO

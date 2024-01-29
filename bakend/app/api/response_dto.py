@@ -29,3 +29,15 @@ class RecordDTO(BaseModel):
 
 class RecordResponseDTO(ResponseDTO):
     record: RecordDTO | [RecordDTO]
+
+
+class CategoryDTO(BaseModel):
+    color: str
+    icon: str
+    title: str
+    user_id: str
+    id: int
+
+
+class CategoryResponseDTO(ResponseDTO):
+    category: CategoryDTO | [CategoryDTO]

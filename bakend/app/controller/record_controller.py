@@ -30,3 +30,32 @@ def get_records(user_id):
         return select_records(user_id)
     except ObjectDeletedError:
         raise ValidationException("user_id")
+
+
+def add_category(new_category: Category):
+    if record_exist(new_category.title):
+        raise DuplicationException("record name")
+    return create_category(new_category)
+
+
+def delete_category(cat_id):
+    try:
+        delete_category(cat_id)
+    except ObjectDeletedError:
+        raise ValidationException("record_id")
+
+
+def edit_category(new_category: Category, cat_id):
+    if cat_id is None:
+        raise ValidationException("record_id")
+    try:
+        return edit_category(new_category, cat_id)
+    except ObjectDeletedError:
+        raise ValidationException("record_id")
+
+
+def get_categories(user_id):
+    try:
+        return select_categories(user_id)
+    except ObjectDeletedError:
+        raise ValidationException("user_id")

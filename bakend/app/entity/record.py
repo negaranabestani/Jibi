@@ -5,10 +5,10 @@ from sqlalchemy import Column, Integer, Unicode, UnicodeText, String, Double, Fo
 class Record(Base):
     __tablename__ = 'records'
     amount = Column(Double)
-    category_id = Column(Integer)
+    category_id = Column(ForeignKey("categories.id"))
     date = Column(String(40))
     title = Column(String(40))
-    user_id = Column(ForeignKey("user.id"))
+    user_id = Column(ForeignKey("users.id"))
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     def __init__(self, amount, category: None, date, title: None, user_id):
