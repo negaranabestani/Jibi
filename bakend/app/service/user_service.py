@@ -28,6 +28,10 @@ def login_service(email, password):
 
 @exception_handler
 def sign_up_service(new_user: UserRequestDTO):
+    if new_user.user.username == "":
+        raise ValidationException("username")
+    if new_user.user.password == "":
+        raise ValidationException("password")
     # TODO validate format and set default values if null
     x_user = User(new_user.user.email, new_user.user.password, new_user.user.username)
     x_user.currency = new_user.user.currency
@@ -40,11 +44,11 @@ def sign_up_service(new_user: UserRequestDTO):
 
 
 @exception_handler
-def update_settings_service(user: UserRequestDTO,token):
+def update_settings_service(user: UserRequestDTO, token):
     x_user = User(user.user.email, user.user.password)
     x_user.currency = user.user.currency
     x_user.calendar = user.user.calendar
-    x_user.user_id=token_parser(token)
+    x_user.user_id = token_parser(token)
     result = edit_settings(x_user)
     response_user = UserDTO(username=result.username, calendar=result.calendar, currency=result.currency)
     response = UserResponseDTO(user=response_user, responseID=str(uuid.uuid4()))

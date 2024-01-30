@@ -1,9 +1,10 @@
 import sys
-import uvicorn as uvicorn
+# import uvicorn as uvicorn
 from typing import Annotated
 from request_dto import *
 
 sys.path.append('../../')
+from uvicorn import run
 from fastapi import FastAPI, Header, Request
 from fastapi.responses import JSONResponse
 from app.exception.api_exception import ApiException
@@ -112,4 +113,4 @@ async def api_exception_handler(request: Request, exc: ApiException):
     )
 
 
-# uvicorn.run(app, host="0.0.0.0", port=8023)
+run(app, host="0.0.0.0", port=8023)
