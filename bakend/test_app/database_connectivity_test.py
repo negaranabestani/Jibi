@@ -4,14 +4,14 @@ def should_returnRecord_when_recordSuccessfullyAdded():
     amount = 20 
     uid = 'realID'
     date = '1/30/2024'
-    record = Record(amount = amount, date=date, user_id = uid)
+    record = Record(amount = amount, date=date, user_id = uid, category = None, title =None)
     result = create_record(record)
     assert result == record
 
 def should_failAddingRecord_when_dateNotProvided():
     amount = 20 
     uid = 'realID'
-    record = Record(amount = amount, user_id = uid)
+    record = Record(amount = amount, user_id = uid, title = None, category = None, date = None)
     result = create_record(record)
     assert result != record
 
@@ -19,13 +19,13 @@ def should_failAddingRecord_when_amountNotProvided():
     amount = 20 
     uid = 'realID'
     date = '1/30/2024'
-    record = Record(amount = amount, user_id = uid)
+    record = Record(date = date, user_id = uid, title = None, category = None, amount = None)
     result = create_record(record)
     assert result != record
 
 def should_failAddingRecord_when_uidNotProvided():
     date = '1/30/2024'
-    record = Record(amount = amount, user_id = uid)
+    record = Record(amount = amount, date = date, title = None, category = None, user_id = None)
     result = create_record(record)
     assert result != record
 
