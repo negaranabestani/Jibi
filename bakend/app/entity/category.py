@@ -8,7 +8,7 @@ class Category(Base):
     color = Column(String(20))
     icon = Column(String(60))
     title = Column(String(40))
-    user_id = Column(ForeignKey("user.id"))
+    user_id = Column(ForeignKey("users.user_id"))
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     def __init__(self, color, icon, title, user_id):

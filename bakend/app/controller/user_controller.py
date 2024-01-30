@@ -2,11 +2,14 @@ import uuid
 from app.exception.controller_exception import DuplicationException, ValidationException
 from app.db.database_connectivity import *
 from sqlalchemy.orm.exc import ObjectDeletedError
+from app.config.logger import jibi_logger
 
 
 def login(email, password):
     try:
         user = get_user(email, password)
+        if user is None:
+            raise ValidationException("email or password")
     except ObjectDeletedError:
         raise ValidationException("email or password")
     two_step_verification(email)
@@ -15,7 +18,7 @@ def login(email, password):
 
 def generate_token(user_id):
     # TODO check for existing token for user
-    return user_id + "::" + str(uuid.uuid4())
+    return str(user_id) + "::" + str(uuid.uuid4())
 
 
 def two_step_verification(email):
@@ -29,6 +32,7 @@ def sign_up(person: User):
         raise DuplicationException("email")
     two_step_verification(person.email)
     user = create_user(person)
+    # jibi_logger.info(str(user.email))
     return generate_token(user.user_id), user
 
 

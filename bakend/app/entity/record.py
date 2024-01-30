@@ -1,4 +1,7 @@
-from app.db.database_connectivity import Base
+import sys
+
+sys.path.append('../../')
+from app.config.db_config import Base
 from sqlalchemy import Column, Integer, Unicode, UnicodeText, String, Double, ForeignKey
 
 
@@ -8,7 +11,7 @@ class Record(Base):
     category_id = Column(ForeignKey("categories.id"))
     date = Column(String(40))
     title = Column(String(40))
-    user_id = Column(ForeignKey("users.id"))
+    user_id = Column(ForeignKey("users.user_id"))
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     def __init__(self, amount, category: None, date, title: None, user_id):

@@ -1,91 +1,111 @@
-import sqlalchemy as db
 from sqlalchemy import *
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session
+import sys
 
+sys.path.append('../../')
 from app.entity.record import *
 from app.entity.person import *
 from app.entity.category import *
+from app.config.db_config import *
+from app.config.logger import jibi_logger
 
-engine = db.create_engine("sqlite:///jibi_database.sqlite")
-
-conn = engine.connect()
-Base = declarative_base(bind=engine)
-Base.metadata.create_all()
-session = Session(engine)
+Base.metadata.create_all(engine)
 
 
 def select_records(user_id: str):
+    session = Session(engine)
     s = select(Record).where(Record.user_id == user_id)
     session.commit()
-    return session.scalars(s)
+    return session.scalars(s).all()
 
 
 def create_record(record: Record):
+    session = Session(engine)
     session.add(record)
-    s = select(Record).where(Record.user_id == record.user_id and Record.title == record.title)
+    s = select(Record).where(Record.user_id == record.user_id).where(Record.title == record.title)
     session.commit()
-    return session.scalars(s)
+    return session.scalars(s).first()
 
 
 def update_record(record: Record):
-    update(Record).where(Record.id == record.id).values(record)
+    session = Session(engine)
+    # update(Record).where(Record.id == record.id).values(title=record.title, amount=record.amount,
+    #                                                     category_id=record.category)
+    session.query(Record).filter(Record.id == record.id).update(
+        {"title": record.title, "amount": record.amount, "category_id": record.category})
     s = select(Record).where(Record.id == record.id)
     session.commit()
-    return session.scalars(s)
+    return session.scalars(s).first()
 
 
 def delete_record(record_id):
+    session = Session(engine)
     delete(Record).where(Record.id == record_id)
     session.commit()
 
 
 def create_user(user: User):
+    session = Session(engine)
     session.add(user)
     s = select(User).where(User.email == user.email)
+    # s=session.query(User).filter_by(email="ed").first()
     session.commit()
-    return session.scalars(s)
+    return session.scalars(s).first()
 
 
 def update_user(user: User):
-    update(User).where(User.user_id == user.user_id).values(user)
-    s = select(User).where(User.user_id == user.user_id)
+    session = Session(engine)
+    # update(User).where(User.user_id == user.user_id).values(username=user.username, calendar=user.calendar,
+    #                                                         currency=user.currency, password=user.password)
+    session.query(User).filter(User.user_id == user.user_id).update(
+        {"username": user.username, "calendar": user.calendar, "currency": user.currency, "password": user.password})
     session.commit()
-    return session.scalars(s)
+    s = select(User).where(User.user_id == user.user_id)
+    return session.scalars(s).first()
 
 
 def get_user(email, password):
-    s = select(User).where(User.email == email and User.password == password)
+    session = Session(engine)
+    s = select(User).where(User.email == email).where(User.password == password)
     session.commit()
-    return session.scalars(s)
+    res = session.scalars(s).first()
+    # jibi_logger.info(password)
+    return res
 
 
 def select_categories(user_id: str):
+    session = Session(engine)
     s = select(Category).where(Category.user_id == user_id)
     session.commit()
     return session.scalars(s)
 
 
 def create_category(cat: Category):
+    session = Session(engine)
     session.add(cat)
-    s = select(Category).where(Category.user_id == cat.user_id and Category.title == cat.title)
+    s = select(Category).where(Category.user_id == cat.user_id).where(Category.title == cat.title)
     session.commit()
-    return session.scalars(s)
+    return session.scalars(s).first()
 
 
 def update_category(cat: Category):
-    update(Category).where(Category.id == cat.id).values(cat)
-    s = select(Category).where(Category.id == cat.id)
+    session = Session(engine)
+    # update(Category).where(Category.id == cat.id).values(color=cat.color, icon=cat.icon, title=cat.title)
+    session.query(Category).filter(Category.id == cat.id).update(
+        {"color": cat.color, "icon": cat.icon, "title": cat.title})
     session.commit()
-    return session.scalars(s)
+    s = select(Category).where(Category.id == cat.id)
+    return session.scalars(s).first()
 
 
 def delete_category(cat_id):
+    session = Session(engine)
     delete(Category).where(Category.id == cat_id)
     session.commit()
 
 
 def user_exist(email):
+    session = Session(engine)
     s = select(User.email)
     session.commit()
     result = session.scalars(s)
@@ -94,8 +114,9 @@ def user_exist(email):
     return False
 
 
-def record_exist(title):
-    s = select(Record.title)
+def record_exist(title, user_id):
+    session = Session(engine)
+    s = select(Record.title).where(Record.user_id == user_id)
     session.commit()
     result = session.scalars(s)
     if title in result:
@@ -103,16 +124,25 @@ def record_exist(title):
     return False
 
 
-def category_exist(title):
-    s = select(Category.title)
+def category_exist(title, user_id):
+    session = Session(engine)
+    s = select(Category.title).where(Category.user_id == user_id)
     session.commit()
     result = session.scalars(s)
     if title in result:
         return True
     return False
 
-
+def category_exist_id(id):
+    session = Session(engine)
+    s = select(Category.id)
+    session.commit()
+    result = session.scalars(s)
+    if id in result:
+        return True
+    return False
 def record_exist_id(id):
+    session = Session(engine)
     s = select(Record.id)
     session.commit()
     result = session.scalars(s)

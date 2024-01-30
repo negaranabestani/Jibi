@@ -11,7 +11,7 @@ from app.util.general_utils import *
 def exception_handler(fun):
     def wrapper(*args, **kwargs):
         try:
-            fun(*args, **kwargs)
+            return fun(*args, **kwargs)
         except ControllerException as e:
             raise ApiException(e.message, e.status_code)
 
@@ -19,87 +19,89 @@ def exception_handler(fun):
 
 
 @exception_handler
-def add_record_service(request: RecordRequestDTO):
+def add_record_service(request: RecordRequestDTO, token):
     new_record = request.record
-    user_id = token_parser(request.token)
+    user_id = token_parser(token)
     record = Record(new_record.amount, new_record.category, time.asctime(), new_record.title, user_id)
-    result: Record = add_record(record)
-    response_dto = RecordDTO(amount=result.amount,
-                             category=result.category,
+    result: Record = add_record(record, user_id)
+    response_dto = RecordDTO(amount=str(result.amount),
+                             category=str(result.category_id),
                              date=result.date,
                              title=result.title,
-                             user_id=result.user_id,
-                             id=result.id)
+                             user_id=str(result.user_id),
+                             id=str(result.id))
     return RecordResponseDTO(record=response_dto, responseID=str(uuid.uuid4()))
 
 
 @exception_handler
-def edit_record_service(request: RecordRequestDTO):
+def edit_record_service(request: RecordRequestDTO, token):
     new_record = request.record
-    user_id = token_parser(request.token)
+    user_id = token_parser(token)
     record = Record(new_record.amount, new_record.category, time.asctime(), new_record.title, user_id)
-    result = edit_record(record, request.record_id)
-    response_dto = RecordDTO(amount=result.amount,
-                             category=result.category,
-                             date=result.date,
-                             title=result.title,
-                             user_id=result.user_id,
-                             id=result.id)
+    record.id = request.record_id
+    result = edit_record(record, request.record_id, user_id)
+    response_dto = RecordDTO(amount=str(result.amount),
+                             category=str(result.category_id),
+                             date=str(result.date),
+                             title=str(result.title),
+                             user_id=str(result.user_id),
+                             id=str(result.id))
     return RecordResponseDTO(record=response_dto, responseID=str(uuid.uuid4()))
 
 
 @exception_handler
-def delete_record_service(request: RecordRequestDTO):
-    delete_record(request.record.record_id)
+def delete_record_service(record_id):
+    remove_record(record_id)
     return ResponseDTO(responseID=str(uuid.uuid4()))
 
 
 @exception_handler
 def get_records_service(user_id):
     records = []
-    for result in get_records(user_id):
-        response_dto = RecordDTO(amount=result.amount,
-                                 category=result.category,
-                                 date=result.date,
-                                 title=result.title,
-                                 user_id=result.user_id,
-                                 id=result.id)
+    record_list = get_records(user_id)
+
+    for result in record_list:
+        response_dto = RecordDTO(amount=str(result.amount),
+                                 category=str(result.category_id),
+                                 date=str(result.date),
+                                 title=str(result.title),
+                                 user_id=str(result.user_id),
+                                 id=str(result.id))
         records.append(response_dto)
-    RecordResponseDTO(record=records, responseID=str(uuid.uuid4()))
-    return RecordResponseDTO
+    return RecordsResponseDTO(record=records, responseID=str(uuid.uuid4()))
 
 
 @exception_handler
-def add_category_service(request: CategoryRequestDTO):
+def add_category_service(request: CategoryRequestDTO, token):
     new_category = request.category
-    user_id = token_parser(request.token)
+    user_id = token_parser(token)
     cat = Category(new_category.color, new_category.icon, new_category.title, user_id)
-    result: Category = add_category(cat)
-    response_dto = CategoryDTO(color=result.color,
-                               icon=result.icon,
-                               title=result.title,
-                               user_id=result.user_id,
-                               id=result.id)
+    result: Category = add_category(cat, user_id)
+    response_dto = CategoryDTO(color=str(result.color),
+                               icon=str(result.icon),
+                               title=str(result.title),
+                               user_id=str(result.user_id),
+                               id=str(result.id))
     return CategoryResponseDTO(category=response_dto, responseID=str(uuid.uuid4()))
 
 
 @exception_handler
-def edit_category_service(request: CategoryRequestDTO):
+def edit_category_service(request: CategoryRequestDTO, token):
     new_category = request.category
-    user_id = token_parser(request.token)
+    user_id = token_parser(token)
     cat = Category(new_category.color, new_category.icon, new_category.title, user_id)
-    result: Category = edit_category(cat, cat.id)
-    response_dto = CategoryDTO(color=result.color,
-                               icon=result.icon,
-                               title=result.title,
-                               user_id=result.user_id,
-                               id=result.id)
+    result: Category = edit_category(cat, cat.id, user_id)
+    response_dto = CategoryDTO(color=str(result.color),
+                               icon=str(result.icon),
+                               title=str(result.title),
+                               user_id=str(result.user_id),
+                               id=str(result.id))
     return CategoryResponseDTO(category=response_dto, responseID=str(uuid.uuid4()))
 
 
 @exception_handler
-def delete_category_service(request: CategoryRequestDTO):
-    delete_category(request.category.id)
+def delete_category_service(cat_id):
+    delete_category(cat_id)
     return ResponseDTO(responseID=str(uuid.uuid4()))
 
 
@@ -107,11 +109,10 @@ def delete_category_service(request: CategoryRequestDTO):
 def get_categories_service(user_id):
     categories = []
     for result in get_categories(user_id):
-        response_dto = CategoryDTO(color=result.color,
-                                   icon=result.icon,
-                                   title=result.title,
-                                   user_id=result.user_id,
-                                   id=result.id)
+        response_dto = CategoryDTO(color=str(result.color),
+                                   icon=str(result.icon),
+                                   title=str(result.title),
+                                   user_id=str(result.user_id),
+                                   id=str(result.id))
         categories.append(response_dto)
-    CategoryResponseDTO(category=categories, responseID=str(uuid.uuid4()))
-    return RecordResponseDTO
+    return CategoriesResponseDTO(category=categories, responseID=str(uuid.uuid4()))
