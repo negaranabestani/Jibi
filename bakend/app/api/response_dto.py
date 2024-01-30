@@ -1,17 +1,18 @@
 import uuid
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class ResponseDTO(BaseModel):
-    responseID: uuid
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    responseID: str
 
 
 class UserDTO(BaseModel):
     username: str
     token: str
-    currency: str
-    calendar: str
+    currency: str | None
+    calendar: str | None
 
 
 class UserResponseDTO(ResponseDTO):
@@ -28,7 +29,11 @@ class RecordDTO(BaseModel):
 
 
 class RecordResponseDTO(ResponseDTO):
-    record: RecordDTO | [RecordDTO]
+    record: RecordDTO
+
+
+class RecordsResponseDTO(ResponseDTO):
+    record: []
 
 
 class CategoryDTO(BaseModel):
@@ -40,4 +45,8 @@ class CategoryDTO(BaseModel):
 
 
 class CategoryResponseDTO(ResponseDTO):
-    category: CategoryDTO | [CategoryDTO]
+    category: CategoryDTO
+
+
+class CategoriesResponseDTO(ResponseDTO):
+    category: [CategoryDTO]

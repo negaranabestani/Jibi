@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from enum import Enum
 
 
@@ -10,23 +10,23 @@ class RecordType(Enum):
 
 
 class RequestDTO(BaseModel):
-    requestID: uuid
-    token: str
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    requestID: str | None
 
 
 class RecordDTO(BaseModel):
     title: str | None
     amount: float
-    category: str | None
+    category: int | None
     type: RecordType
 
 
 class RecordRequestDTO(RequestDTO):
     record: RecordDTO
-    record_id: int
+    record_id: int | None
 
 
-class UserDTO:
+class UserRDTO(BaseModel):
     email: str
     password: str
     username: str | None
@@ -35,14 +35,14 @@ class UserDTO:
 
 
 class UserRequestDTO(RequestDTO):
-    user: UserDTO
+    user: UserRDTO
 
 
 class CategoryDTO(BaseModel):
-    color: str
-    icon: str
+    color: str | None
+    icon: str | None
     title: str
-    id: int
+    id: int | None
 
 
 class CategoryRequestDTO(RequestDTO):
