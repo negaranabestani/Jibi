@@ -1,6 +1,5 @@
 # pull the official base image
 FROM python:3.10
-
 # set work directory
 WORKDIR /app
 
