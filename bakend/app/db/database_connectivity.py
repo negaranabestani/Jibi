@@ -75,9 +75,9 @@ def get_user(email, password):
 
 def select_categories(user_id: str):
     session = Session(engine)
-    s = select(Category).where(Category.user_id == user_id)
+    s = select(Category).where(Category.user_id == user_id or Category.user_id == "golbal")
     session.commit()
-    return session.scalars(s)
+    return session.scalars(s).all()
 
 
 def create_category(cat: Category):
@@ -126,12 +126,13 @@ def record_exist(title, user_id):
 
 def category_exist(title, user_id):
     session = Session(engine)
-    s = select(Category.title).where(Category.user_id == user_id)
+    s = select(Category.title).where(Category.user_id == user_id or Category.user_id == "golbal")
     session.commit()
     result = session.scalars(s)
     if title in result:
         return True
     return False
+
 
 def category_exist_id(id):
     session = Session(engine)
@@ -141,11 +142,22 @@ def category_exist_id(id):
     if id in result:
         return True
     return False
+
+
 def record_exist_id(id):
     session = Session(engine)
     s = select(Record.id)
     session.commit()
     result = session.scalars(s)
     if id in result:
+        return True
+    return False
+
+def category_empty():
+    session = Session(engine)
+    s = select(Category)
+    session.commit()
+    result = session.scalars(s)
+    if len(result.all()) == 0:
         return True
     return False

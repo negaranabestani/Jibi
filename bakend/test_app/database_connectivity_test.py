@@ -1,4 +1,4 @@
-from app.dp.database_connectivity import * 
+from app.db.database_connectivity import *
 
 def should_returnRecord_when_recordSuccessfullyAdded():
     amount = 20 

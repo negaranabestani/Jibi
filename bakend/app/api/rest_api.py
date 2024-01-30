@@ -112,5 +112,9 @@ async def api_exception_handler(request: Request, exc: ApiException):
                  "request": f"{dict(request.path_params)},{dict(request.query_params)},{dict(request)}"},
     )
 
-
+if category_empty():
+    create_category(Category(color=None, icon=None, title="food", user_id="golbal"))
+    create_category(Category(color=None, icon=None, title="school", user_id="golbal"))
+    create_category(Category(color=None, icon=None, title="work", user_id="golbal"))
+    create_category(Category(color=None, icon=None, title="cloths", user_id="golbal"))
 run(app, host="0.0.0.0", port=8023)

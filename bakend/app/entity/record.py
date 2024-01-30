@@ -14,7 +14,7 @@ class Record(Base):
     user_id = Column(ForeignKey("users.user_id"))
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    def __init__(self, amount, category: None, date, title: None, user_id):
+    def __init__(self, amount, category, date, title, user_id):
         self.amount = amount
         self.category = category
         self.date = date
