@@ -13,6 +13,8 @@ def add_record(new_record: Record, user_id):
 
 
 def remove_record(record_id):
+    if not record_exist_id(record_id):
+        raise ValidationException("record_id")
     try:
         delete_record(record_id)
     except ObjectDeletedError:
