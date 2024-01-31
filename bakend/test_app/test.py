@@ -1,47 +1,10 @@
 import unittest
 
-from app.controller.record_controller import *
-from app.db.database_connectivity import *
+from app.db.database_connectivity import create_record, category_exist, record_exist_id
+from bakend.app.controller.record_controller import remove_record, add_record
+from app.exception import *
+from backend.app.entity.record import Record
 
-
-class Record_controller_test(unittest.TestCase):
-
-    
-    def test_should_raiseValidationError_when_recordDoesntExist(self):
-        rid = 0
-        
-        with self.assertRaises(ValidationException) as context:
-            delete_record(rid)
-        self.assertTrue('invalid record_id' in str(context.exception))
-
-
-    def test_should_returnAddedRecord_when_addRecordSuccessfull(self):
-        record = Record(amount=20, category = 1, date='1/30/2024', title='record1', user_id=1)
-        result = add_record(record, 1)
-        self.assertEqual(result, record)
-
-    def test_should_raiseDuplicationError_when_recordNameIsReplicate(self):
-        record = Record(amount=20, category=1, date='1/30/2024', title='record1', user_id=1)
-        
-        with self.assertRaises(DuplicationException) as context:
-            add_record(record, 1)
-        self.assertTrue('duplicated record name' in str(context.exception))
-
-    def test_should_raiseValidationError_when_categoryNotProvided(self):
-        record = Record(amount=20, date='1/30/2024', title='record1', user_id=1, category=None)
-
-        with self.assertRaises(ValidationException) as context:
-            add_record(record, 1)
-        self.assertTrue('invalid category_id' in str(context.exception))
-
-
-    def test_should_raiseValidationError_when_categoryDoesntExist(self):
-        record = Record(amount=20, category= 0, date='1/30/2024', title='record1', user_id=1)
-        
-        with self.assertRaises(ValidationException) as context:
-            add_record(record, 1)
-        self.assertTrue('invalid category_id' in str(context.exception))
- 
 
 
 class database_connectivity_test(unittest.TestCase):
@@ -84,16 +47,58 @@ class database_connectivity_test(unittest.TestCase):
         self.assertEqual(result, False)
 
     def test_should_returnTrue_when_categoryExistsAndValidID(self):
-        result = category_exist(1, 1)
+        result = category_exist('food', 1)
         assert result == True
 
     def test_should_returnFalse_when_categoryDoesntExist(self):
-        result = category_exist(0, 1)
+        result = category_exist('random', 1)
         assert result == False
 
     def test_should_returnFalse_when_invalidUserID(self):
-        result = category_exist(1, 0)
+        result = category_exist('food', 0)
         self.assertEqual(result, False)
+
+
+class Record_controller_test(unittest.TestCase):
+
+    
+    def test_should_raiseValidationError_when_recordDoesntExist(self):
+        rid = 0
+        
+        with self.assertRaises(ValidationException) as context:
+            remove_record(rid)
+        self.assertTrue('invalid record_id' in str(context.exception))
+
+
+    def test_should_returnAddedRecord_when_addRecordSuccessfull(self):
+        record = Record(amount=20, category = 1, date='1/30/2024', title='record1', user_id=1)
+        result = add_record(record, 1)
+        self.assertEqual(result, record)
+
+    def test_should_raiseDuplicationError_when_recordNameIsReplicate(self):
+        record = Record(amount=20, category=1, date='1/30/2024', title='record1', user_id=1)
+        
+        with self.assertRaises(DuplicationException) as context:
+            add_record(record, 1)
+        self.assertTrue('duplicated record name' in str(context.exception))
+
+    def test_should_raiseValidationError_when_categoryNotProvided(self):
+        record = Record(amount=20, date='1/30/2024', title='record1', user_id=1, category=None)
+
+        with self.assertRaises(ValidationException) as context:
+            add_record(record, 1)
+        self.assertTrue('invalid category_id' in str(context.exception))
+
+
+    def test_should_raiseValidationError_when_categoryDoesntExist(self):
+        record = Record(amount=20, category= 0, date='1/30/2024', title='record1', user_id=1)
+        
+        with self.assertRaises(ValidationException) as context:
+            add_record(record, 1)
+        self.assertTrue('invalid category_id' in str(context.exception))
+ 
+
+
 
 
 if __name__ == '__main__':
