@@ -17,7 +17,7 @@ class RequestDTO(BaseModel):
 class RecordDTO(BaseModel):
     title: str | None
     amount: float
-    category: int | None
+    category: int
     type: RecordType
 
 

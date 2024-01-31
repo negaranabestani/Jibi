@@ -4,8 +4,8 @@ from app.exception.controller_exception import DuplicationException, ValidationE
 
 
 def add_record(new_record: Record, user_id):
-    jibi_logger.info(new_record.category)
-    if new_record.category == None or not category_exist_id(new_record.category):
+    # jibi_logger.info(new_record.category)
+    if new_record.category_id == None or not category_exist_id(new_record.category_id):
         raise ValidationException("category_id")
     if record_exist(new_record.title, user_id):
         raise DuplicationException("record name")
@@ -23,7 +23,7 @@ def edit_record(new_record: Record, record_id, user_id):
     if record_id is None:
         raise ValidationException("record_id")
     try:
-        if record_exist(new_record.title, user_id):
+        if get_record(record_id).title != new_record.title and record_exist(new_record.title, user_id):
             raise DuplicationException("record name")
         return update_record(new_record)
     except ObjectDeletedError:

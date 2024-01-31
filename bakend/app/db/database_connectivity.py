@@ -21,6 +21,7 @@ def select_records(user_id: str):
 
 def create_record(record: Record):
     session = Session(engine)
+    # record.category_id=record.category
     session.add(record)
     s = select(Record).where(Record.user_id == record.user_id).where(Record.title == record.title)
     session.commit()
@@ -32,7 +33,7 @@ def update_record(record: Record):
     # update(Record).where(Record.id == record.id).values(title=record.title, amount=record.amount,
     #                                                     category_id=record.category)
     session.query(Record).filter(Record.id == record.id).update(
-        {"title": record.title, "amount": record.amount, "category_id": record.category})
+        {"title": record.title, "amount": record.amount, "category_id": record.category_id})
     s = select(Record).where(Record.id == record.id)
     session.commit()
     return session.scalars(s).first()
@@ -94,7 +95,10 @@ def get_category(cat_id):
     s = select(Category).where(Category.id == cat_id)
     return session.scalars(s).first()
 
-
+def get_record(record_id):
+    session = Session(engine)
+    s = select(Record).where(Record.id == record_id)
+    return session.scalars(s).first()
 def update_category(cat: Category):
     session = Session(engine)
 

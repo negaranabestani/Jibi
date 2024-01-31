@@ -21,9 +21,10 @@ class UserResponseDTO(ResponseDTO):
 
 class RecordDTO(BaseModel):
     amount: str
-    category: str
+    category: int
     date: str
     title: str
+    type: str
     user_id: int
     id: int
 

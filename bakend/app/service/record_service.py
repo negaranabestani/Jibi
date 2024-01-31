@@ -22,13 +22,14 @@ def exception_handler(fun):
 def add_record_service(request: RecordRequestDTO, token):
     new_record = request.record
     user_id = token_parser(token)
-    record = Record(new_record.amount, new_record.category, time.asctime(), new_record.title, user_id)
+    record = Record(new_record.amount, new_record.category, time.asctime(), new_record.title, user_id, str(new_record.type.value))
     result: Record = add_record(record, user_id)
     response_dto = RecordDTO(amount=str(result.amount),
-                             category=str(result.category_id),
+                             category=result.category_id,
                              date=result.date,
                              title=result.title,
                              user_id=result.user_id,
+                             type=result.type,
                              id=result.id)
     return RecordResponseDTO(record=response_dto, responseID=str(uuid.uuid4()))
 
@@ -37,14 +38,15 @@ def add_record_service(request: RecordRequestDTO, token):
 def edit_record_service(request: RecordRequestDTO, token):
     new_record = request.record
     user_id = token_parser(token)
-    record = Record(new_record.amount, new_record.category, time.asctime(), new_record.title, user_id)
+    record = Record(new_record.amount, new_record.category, time.asctime(), new_record.title, user_id, str(new_record.type.value))
     record.id = request.record_id
-    result = edit_record(record, request.record_id, user_id)
+    result: Record = edit_record(record, request.record_id, user_id)
     response_dto = RecordDTO(amount=str(result.amount),
-                             category=str(result.category_id),
+                             category=result.category_id,
                              date=str(result.date),
                              title=str(result.title),
                              user_id=result.user_id,
+                             type=result.type,
                              id=result.id)
     return RecordResponseDTO(record=response_dto, responseID=str(uuid.uuid4()))
 
@@ -60,12 +62,14 @@ def get_records_service(user_id):
     records = []
     record_list = get_records(user_id)
 
-    for result in record_list:
+    for rec in record_list:
+        result: Record = rec
         response_dto = RecordDTO(amount=str(result.amount),
-                                 category=str(result.category_id),
+                                 category=result.category_id,
                                  date=str(result.date),
                                  title=str(result.title),
                                  user_id=result.user_id,
+                                 type=result.type,
                                  id=result.id)
         records.append(response_dto)
     return RecordsResponseDTO(record=records, responseID=str(uuid.uuid4()))
