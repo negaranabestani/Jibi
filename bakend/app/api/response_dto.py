@@ -24,8 +24,8 @@ class RecordDTO(BaseModel):
     category: str
     date: str
     title: str
-    user_id: str
-    id: str
+    user_id: int
+    id: int
 
 
 class RecordResponseDTO(ResponseDTO):
@@ -40,7 +40,7 @@ class CategoryDTO(BaseModel):
     color: str
     icon: str
     title: str
-    user_id: str
+    user_id: int
     id: int
 
 

@@ -51,14 +51,16 @@ def delete_category(cat_id):
 
 
 def edit_category(new_category: Category, cat_id, user_id):
+    if get_category(cat_id).user_id == "golbal":
+        raise ValidationException("category_id, none editable object")
     if cat_id is None:
-        raise ValidationException("category_id")
+        raise ValidationException("category_id, none value")
     try:
         if category_exist(new_category.title, user_id):
             raise DuplicationException("category name")
         return update_category(new_category)
     except ObjectDeletedError:
-        raise ValidationException("category_id")
+        raise ValidationException("category_id, object doesn't exist")
 
 
 def get_categories(user_id):

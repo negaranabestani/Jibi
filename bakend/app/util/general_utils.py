@@ -1,2 +1,2 @@
 def token_parser(token: str):
-    return token.split("::")[0]
+    return int(token.split("::")[0])

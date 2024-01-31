@@ -28,8 +28,8 @@ def add_record_service(request: RecordRequestDTO, token):
                              category=str(result.category_id),
                              date=result.date,
                              title=result.title,
-                             user_id=str(result.user_id),
-                             id=str(result.id))
+                             user_id=result.user_id,
+                             id=result.id)
     return RecordResponseDTO(record=response_dto, responseID=str(uuid.uuid4()))
 
 
@@ -44,8 +44,8 @@ def edit_record_service(request: RecordRequestDTO, token):
                              category=str(result.category_id),
                              date=str(result.date),
                              title=str(result.title),
-                             user_id=str(result.user_id),
-                             id=str(result.id))
+                             user_id=result.user_id,
+                             id=result.id)
     return RecordResponseDTO(record=response_dto, responseID=str(uuid.uuid4()))
 
 
@@ -65,8 +65,8 @@ def get_records_service(user_id):
                                  category=str(result.category_id),
                                  date=str(result.date),
                                  title=str(result.title),
-                                 user_id=str(result.user_id),
-                                 id=str(result.id))
+                                 user_id=result.user_id,
+                                 id=result.id)
         records.append(response_dto)
     return RecordsResponseDTO(record=records, responseID=str(uuid.uuid4()))
 
@@ -80,8 +80,8 @@ def add_category_service(request: CategoryRequestDTO, token):
     response_dto = CategoryDTO(color=str(result.color),
                                icon=str(result.icon),
                                title=str(result.title),
-                               user_id=str(result.user_id),
-                               id=str(result.id))
+                               user_id=result.user_id,
+                               id=result.id)
     return CategoryResponseDTO(category=response_dto, responseID=str(uuid.uuid4()))
 
 
@@ -90,12 +90,13 @@ def edit_category_service(request: CategoryRequestDTO, token):
     new_category = request.category
     user_id = token_parser(token)
     cat = Category(new_category.color, new_category.icon, new_category.title, user_id)
+    cat.id = new_category.id
     result: Category = edit_category(cat, cat.id, user_id)
     response_dto = CategoryDTO(color=str(result.color),
                                icon=str(result.icon),
                                title=str(result.title),
-                               user_id=str(result.user_id),
-                               id=str(result.id))
+                               user_id=result.user_id,
+                               id=result.id)
     return CategoryResponseDTO(category=response_dto, responseID=str(uuid.uuid4()))
 
 
@@ -112,7 +113,7 @@ def get_categories_service(user_id):
         response_dto = CategoryDTO(color=str(result.color),
                                    icon=str(result.icon),
                                    title=str(result.title),
-                                   user_id=str(result.user_id),
-                                   id=str(result.id))
+                                   user_id=result.user_id,
+                                   id=result.id)
         categories.append(response_dto)
     return CategoriesResponseDTO(category=categories, responseID=str(uuid.uuid4()))
