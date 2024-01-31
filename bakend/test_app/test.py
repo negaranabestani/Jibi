@@ -1,10 +1,11 @@
 import unittest
 
 from app.db.database_connectivity import create_record, category_exist, record_exist_id
-from bakend.app.controller.record_controller import remove_record, add_record
+from app.controller.record_controller import remove_record, add_record
 from app.exception import *
-from backend.app.entity.record import Record
+from app.entity.record import Record
 
+from app.exception.controller_exception import ValidationException, DuplicationException
 
 
 class database_connectivity_test(unittest.TestCase):
@@ -47,12 +48,13 @@ class database_connectivity_test(unittest.TestCase):
         self.assertEqual(result, False)
 
     def test_should_returnTrue_when_categoryExistsAndValidID(self):
+        # TODO bug
         result = category_exist('food', 1)
-        assert result == True
+        self.assertEqual(result, True)
 
     def test_should_returnFalse_when_categoryDoesntExist(self):
         result = category_exist('random', 1)
-        assert result == False
+        self.assertEqual(result, False)
 
     def test_should_returnFalse_when_invalidUserID(self):
         result = category_exist('food', 0)
