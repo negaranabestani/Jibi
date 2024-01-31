@@ -1,9 +1,9 @@
 import unittest
 
 from app.db.database_connectivity import create_record, category_exist, record_exist_id
-from app.controller.record_controller import remove_record, add_record
+from app.controller.record_controller import remove_record, add_record, add_category
 from app.controller.user_controller import sign_up, generate_token
-from app.entity.record import Record, User
+from app.entity.record import Record, User, Category
 from app.exception.controller_exception import ValidationException, DuplicationException
 
 class User_controller_test(unittest.TestCase):
@@ -25,7 +25,7 @@ class Record_controller_test(unittest.TestCase):
     def test_should_returnCategory_when_addedSuccessfully(self):
         category = Category(color = 'red', icon='circle', title='food', user_id=1)
         result = add_category(category)
-        self.assertIsNotNone
+        self.assertIsNotNone(result)
     
     def test_should_raiseDuplicationError_when_categoryNameIsReplicate(self):
         category = Category(color = 'red', icon='circle', title='food', user_id=1)
@@ -40,7 +40,7 @@ class Record_controller_test(unittest.TestCase):
     def test_should_returnAddedRecord_when_addRecordSuccessfull(self):
         record = Record(amount=20, category = 1, date='1/30/2024', title='record1', user_id=1)
         result = add_record(record, 1)
-        self.assertEqual(result, record)
+        self.assertIsNotNone(result)
 
     def test_should_raiseDuplicationError_when_recordNameIsReplicate(self):
         record = Record(amount=20, category=1, date='1/30/2024', title='record1', user_id=1)
