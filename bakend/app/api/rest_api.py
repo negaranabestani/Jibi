@@ -69,7 +69,7 @@ async def record_edition(record: RecordRequestDTO, x_token: Annotated[str | None
 @login_required
 @app.delete(f"{base_url}" + "/record/{record_id}", response_model=ResponseDTO)
 async def record_deletion(record_id, x_token: str = Header(None)):
-    res = delete_record_service(record_id, x_token)
+    res = delete_record_service(record_id)
     jibi_logger.info(dict(res))
     return res
 
