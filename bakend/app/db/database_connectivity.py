@@ -40,7 +40,8 @@ def update_record(record: Record):
 
 def delete_record(record_id):
     session = Session(engine)
-    delete(Record).where(Record.id == record_id)
+    # delete(Record).where(Record.id == record_id)
+    session.query(Record).filter(Record.id == record_id).delete()
     session.commit()
 
 
@@ -107,7 +108,8 @@ def update_category(cat: Category):
 
 def delete_category(cat_id):
     session = Session(engine)
-    delete(Category).where(Category.id == cat_id)
+    # session.delete(Category).where(Category.id == cat_id)
+    session.query(Category).filter(Category.id == cat_id).delete()
     session.commit()
 
 

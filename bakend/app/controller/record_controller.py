@@ -43,7 +43,7 @@ def add_category(new_category: Category, user_id):
     return create_category(new_category)
 
 
-def delete_category(cat_id):
+def remove_category(cat_id):
     try:
         delete_category(cat_id)
     except ObjectDeletedError:

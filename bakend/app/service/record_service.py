@@ -102,7 +102,7 @@ def edit_category_service(request: CategoryRequestDTO, token):
 
 @exception_handler
 def delete_category_service(cat_id):
-    delete_category(cat_id)
+    remove_category(cat_id)
     return ResponseDTO(responseID=str(uuid.uuid4()))
 
 
