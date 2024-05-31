@@ -22,6 +22,6 @@ jobs:
     - name: Install Dep
       run: |
         python -m pip install --upgrade pip 
-        pip install -r requirements.txt
+        pip install -r backend/requirements.txt
     - name: Run tests
       run:  python3 -m unittest  bakend/test_app/test.py
