@@ -25,4 +25,5 @@ jobs:
       run: |
             pip install -r requirements.txt
     - name: Run tests
+      working-directory: ./bakend
       run:  python3 -m unittest test_app/test.py
