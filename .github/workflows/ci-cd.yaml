@@ -12,6 +12,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -20,7 +21,8 @@ jobs:
         python-version: '3.10'
         cache: 'pip'
     - name: Install Dep
+      working-directory: ./bakend
       run: |
-            pip install -r .github/workflows/backend/requirements.txt
+            pip install -r requirements.txt
     - name: Run tests
-      run:  python3 -m unittest  .github/workflows/bakend/test_app/test.py
+      run:  python3 -m unittest test_app/test.py
