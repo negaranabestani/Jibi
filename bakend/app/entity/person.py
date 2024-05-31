@@ -1,4 +1,4 @@
-from app.db.database_connectivity import Base
+from bakend.app.db.database_connectivity import Base
 from sqlalchemy import Column, Integer, Unicode, UnicodeText, String
 
 

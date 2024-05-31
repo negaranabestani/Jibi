@@ -1,6 +1,6 @@
 from sqlalchemy.orm.exc import ObjectDeletedError
-from app.db.database_connectivity import *
-from app.exception.controller_exception import DuplicationException, ValidationException
+from bakend.app.db.database_connectivity import *
+from bakend.app.exception.controller_exception import DuplicationException, ValidationException
 
 
 def add_record(new_record: Record, user_id):

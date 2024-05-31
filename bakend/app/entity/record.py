@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append('../../')
-from app.config.db_config import Base
+from bakend.app.config.db_config import Base
 from sqlalchemy import Column, Integer, Unicode, UnicodeText, String, Double, ForeignKey
 
 

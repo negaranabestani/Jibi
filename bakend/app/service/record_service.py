@@ -1,11 +1,11 @@
 import time
 
-from app.api.request_dto import RecordRequestDTO, CategoryRequestDTO
-from app.api.response_dto import *
-from app.controller.record_controller import *
-from app.exception.api_exception import ApiException
-from app.exception.controller_exception import ControllerException
-from app.util.general_utils import *
+from bakend.app.api.request_dto import RecordRequestDTO, CategoryRequestDTO
+from bakend.app.api.response_dto import *
+from bakend.app.controller.record_controller import *
+from bakend.app.exception.api_exception import ApiException
+from bakend.app.exception.controller_exception import ControllerException
+from bakend.app.util.general_utils import *
 
 
 def exception_handler(fun):

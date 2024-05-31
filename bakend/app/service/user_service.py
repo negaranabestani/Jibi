@@ -1,11 +1,11 @@
-from app.api.request_dto import UserRequestDTO
-from app.controller.user_controller import *
-from app.exception.controller_exception import *
-from app.exception.api_exception import *
-from app.entity.person import *
-from app.api.response_dto import *
-from app.config.logger import jibi_logger
-from app.util.general_utils import token_parser
+from bakend.app.api.request_dto import UserRequestDTO
+from bakend.app.controller.user_controller import *
+from bakend.app.exception.controller_exception import *
+from bakend.app.exception.api_exception import *
+from bakend.app.entity.person import *
+from bakend.app.api.response_dto import *
+from bakend.app.config.logger import jibi_logger
+from bakend.app.util.general_utils import token_parser
 
 
 def exception_handler(fun):

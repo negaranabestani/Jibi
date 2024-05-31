@@ -7,11 +7,11 @@ sys.path.append('../../')
 from uvicorn import run
 from fastapi import FastAPI, Header, Request
 from fastapi.responses import JSONResponse
-from app.exception.api_exception import ApiException
-from app.service.user_service import *
-from app.service.record_service import *
-from app.util.general_utils import *
-from app.config.logger import jibi_logger
+from bakend.app.exception.api_exception import ApiException
+from bakend.app.service.user_service import *
+from bakend.app.service.record_service import *
+from bakend.app.util.general_utils import *
+from bakend.app.config.logger import jibi_logger
 
 app = FastAPI()
 
