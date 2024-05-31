@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 
-from app.db.database_connectivity import Base
+from bakend.app.db.database_connectivity import Base
 
 
 class Category(Base):

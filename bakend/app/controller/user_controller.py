@@ -1,8 +1,8 @@
 import uuid
-from app.exception.controller_exception import DuplicationException, ValidationException
-from app.db.database_connectivity import *
+from bakend.app.exception.controller_exception import DuplicationException, ValidationException
+from bakend.app.db.database_connectivity import *
 from sqlalchemy.orm.exc import ObjectDeletedError
-from app.config.logger import jibi_logger
+from bakend.app.config.logger import jibi_logger
 
 
 def login(email, password):

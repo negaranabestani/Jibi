@@ -3,13 +3,13 @@ from sqlalchemy.orm import Session
 import sys
 
 sys.path.append('../../')
-from app.entity.record import *
-from app.entity.person import *
-from app.entity.category import *
-from app.config.db_config import *
-from app.config.logger import jibi_logger
+from bakend.app.entity.record import *
+from bakend.app.entity.person import *
+from bakend.app.entity.category import *
+from bakend.app.config.db_config import *
+from bakend.app.config.logger import jibi_logger
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 
 
 def select_records(user_id: str):
