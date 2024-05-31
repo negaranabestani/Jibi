@@ -1,0 +1,8 @@
+version: '3'
+services:
+  app:
+    image: jibi:latest
+    volumes:
+        - /home/little-wolf/sqlite/jibi_database.sqlite:/app/api/jibi_database.sqlite
+    ports:
+      - "8023:8023"
